@@ -1,0 +1,31 @@
+docker run --link mongo --link elasticsearch \
+    -p 9000:9000 -p 12201:12201 -p 514:514 -p 5555:5555 \
+    -e GRAYLOG_WEB_ENDPOINT_URI="http://127.0.0.1:9000/api" \
+    -e GRAYLOG_ROOT_PASSWORD_SHA2=3fb616f0293f337986af25991a00d51692c057dbbb454dc9a2f9154676f1f54e
+    -e GRAYLOG_WEB_ENDPOINT_URI="http://127.0.0.1:9000/api"
+    -d graylog/graylog:3.0
+
+http://192.168.0.12
+curl -k https://192.168.0.12:8088/services/collector/event/1.0 -H "Authorization: Splunk 7f1a736c-8a0d-40a0-ad4f-943f0f43d775" -d '{"event": "hello world"}'
+
+"ClientRequestHost": "string; host requested by the client",
+"ClientRequestUserAgent": "string; User agent reported by the client",
+"OriginResponseBytes": "int; number of bytes returned by the origin server",
+"OriginResponseTime": "int; number of nanoseconds it took the origin to return the response
+
+docker run --publish 80:80 --log-driver=splunk --log-opt splunk-token=eb11a38e-8fe0-431b-9398-4039a465c2ea --log-opt splunk-url=https://192.168.0.12:8088 --log-opt splunk-insecureskipverify=true nginx
+
+
+/**STAB TWO **/
+
+docker run --name mongo -d mongo:3
+
+docker run --name elasticsearch \
+    -e "http.host=0.0.0.0" \
+    -e "ES_JAVA_OPTS=-Xms512m -Xmx512m" \
+    -d docker.elastic.co/elasticsearch/elasticsearch-oss:6.6.1
+
+docker run --name graylog --link mongo --link elasticsearch \
+    -p 9000:9000 -p 12201:12201 -p 1514:1514 \
+    -e GRAYLOG_HTTP_EXTERNAL_URI="http://127.0.0.1:9000/" \
+    -d graylog/graylog:3.0

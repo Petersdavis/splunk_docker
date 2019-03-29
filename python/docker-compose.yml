@@ -1,0 +1,13 @@
+version: '2'
+services:
+  splunk_python:
+    build: ./
+    entrypoint:
+      - python
+      - -u
+      - poll.py
+    volumes:
+      - ./src:/mnt/src
+      - ./logs:/mnt/src/logs
+    ports:
+      - '8087:8087'

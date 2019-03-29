@@ -1,0 +1,50 @@
+version: '2'
+services:
+  splunk:
+    container_name: splunk
+    image: splunk/splunk:latest
+    hostname: splunk
+    environment:
+      SPLUNK_START_ARGS: --accept-license --answer-yes
+      SPLUNK_ENABLE_LISTEN: 9997
+      SPLUNK_ADD: udp 514
+      SPLUNK_USER: root
+      SPLUNK_PASSWORD: 12345678
+    volumes:
+      - splunk-data-etc:/opt/splunk/etc
+      - splunk-data-var:/opt/splunk/var
+    ports:
+      - "8000:8000"
+      - "9997:9997"
+      - "8088:8088"
+      - "514:514/udp"
+    restart: always
+
+#  universal_forwarder:
+#    container_name: universal_forwarder
+#    image: splunk/universalforwarder:latest
+#    hostname: universal_fowarder
+#    environment:
+#      SPLUNK_START_ARGS: --accept-license
+#      SPLUNK_FORWARD_SERVER: splunk:9997
+#      SPLUNK_USER: root
+#      SPLUNK_PASSWORD: 12345678
+#    volumes:
+#      - splunk-fw-data:/opt/splunk/
+#    ports:
+#      - "1514:1514/udp"
+#    depends_on:
+#      - splunk
+## need to open a listening port for 1514/udp  # docker exec -it splunk_fw /bin/bash  [...] splunk add udp 1514 -sourcetype _json
+
+volumes:
+  splunk-data-etc:
+  splunk-data-var:
+#  splunk-fw-data:
+
+
+
+
+
+
+
