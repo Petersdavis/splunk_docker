@@ -29,8 +29,8 @@ services:
       # CHANGE ME (must be at least 16 characters)!
       - GRAYLOG_PASSWORD_SECRET=FJJDDDDDDOOSDFSDFSDFAACDAHP
       # Password: admin
-      - GRAYLOG_ROOT_PASSWORD_SHA2=1dd818f16fb36db9959f01c7435e1b06b0160b5bbb4499319033d40b3ffad113
-      - GRAYLOG_HTTP_EXTERNAL_URI=http://10.114.8.239:9000/
+      - GRAYLOG_ROOT_PASSWORD_SHA2=8C6976E5B5410415BDE908BD4DEE15DFB167A9C873FC4BB8A81F6F2AB448A918
+      - GRAYLOG_HTTP_EXTERNAL_URI=http://127.0.0.1:9001/
     links:
       - mongodb:mongo
       - elasticsearch
@@ -39,7 +39,7 @@ services:
       - elasticsearch
     ports:
       # Graylog web interface and REST API
-      - 9000:9000
+      - 9001:9000
       # Syslog TCP
       - 1514:1514
       # Syslog UDP
@@ -50,6 +50,7 @@ services:
       - 12201:12201/udp
       #RAW
       - 5555:5555
+      - 5556:5555/udp
       #HTTP
       - 8080:80
 volumes:
